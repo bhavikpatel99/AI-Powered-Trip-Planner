@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Trip Planner - Your Perfect Journey Awaits</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button id="lang-en" class="lang-btn active">
+            <i class="fas fa-flag"></i> EN
+        </button>
+        <button id="lang-hi" class="lang-btn">
+            <i class="fas fa-flag"></i> हिं
+        </button>
+    </div>
+
+    <!-- Welcome/Landing Page -->
+    <section id="welcome-page" class="page active">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h1 class="hero-title" data-en="AI-Powered Trip Planner" data-hi="AI-संचालित यात्रा योजनाकार">AI-Powered Trip Planner</h1>
+                <p class="hero-subtitle" data-en="Let AI create your perfect personalized itinerary in minutes" data-hi="AI को कुछ ही मिनटों में आपकी सही व्यक्तिगत यात्रा बनाने दें">Let AI create your perfect personalized itinerary in minutes</p>
+                
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <i class="fas fa-magic"></i>
+                        <span data-en="Smart AI Planning" data-hi="स्मार्ट AI योजना">Smart AI Planning</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-clock"></i>
+                        <span data-en="Real-time Updates" data-hi="वास्तविक समय अपडेट">Real-time Updates</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-rupee-sign"></i>
+                        <span data-en="Budget Optimization" data-hi="बजट अनुकूलन">Budget Optimization</span>
+                    </div>
+                </div>
+
+                <button class="btn btn--primary btn--lg cta-button" id="start-planning" data-en="Plan My Trip" data-hi="मेरी यात्रा की योजना बनाएं">
+                    <i class="fas fa-plane"></i> Plan My Trip
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trip Planning Form -->
+    <section id="planning-form" class="page">
+        <div class="container">
+            <div class="form-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="progress-steps">
+                    <span class="step active" data-en="Basic Details" data-hi="मूल विवरण">Basic Details</span>
+                    <span class="step" data-en="Preferences" data-hi="प्राथमिकताएं">Preferences</span>
+                    <span class="step" data-en="Interests" data-hi="रुचियां">Interests</span>
+                </div>
+            </div>
+
+            <!-- Step 1: Basic Details -->
+            <div class="form-step active" id="step-1">
+                <h2 data-en="Tell us about your trip" data-hi="अपनी यात्रा के बारे में बताएं">Tell us about your trip</h2>
+                
+                <div class="form-group">
+                    <label class="form-label" data-en="Choose Destination" data-hi="गंतव्य चुनें">Choose Destination</label>
+                    <select class="form-control" id="destination">
+                        <option value="" data-en="Select destination..." data-hi="गंतव्य चुनें...">Select destination...</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" data-en="Departure Date" data-hi="प्रस्थान तिथि">Departure Date</label>
+                        <input type="date" class="form-control" id="departure-date">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-en="Return Date" data-hi="वापसी तिथि">Return Date</label>
+                        <input type="date" class="form-control" id="return-date">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" data-en="Number of Travelers" data-hi="यात्रियों की संख्या">Number of Travelers</label>
+                    <select class="form-control" id="travelers">
+                        <option value="1">1 person</option>
+                        <option value="2">2 people</option>
+                        <option value="3">3 people</option>
+                        <option value="4">4 people</option>
+                        <option value="5+">5+ people</option>
+                    </select>
+                </div>
+
+                <div class="duration-display">
+                    <i class="fas fa-calendar"></i>
+                    <span data-en="Trip Duration: " data-hi="यात्रा अवधि: ">Trip Duration: </span>
+                    <span id="trip-duration">0 days</span>
+                </div>
+            </div>
+
+            <!-- Step 2: Preferences -->
+            <div class="form-step" id="step-2">
+                <h2 data-en="What's your travel style?" data-hi="आपकी यात्रा शैली क्या है?">What's your travel style?</h2>
+                
+                <div class="form-group">
+                    <label class="form-label" data-en="Travel Themes" data-hi="यात्रा विषय">Travel Themes</label>
+                    <div class="theme-grid" id="theme-grid"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" data-en="Budget Range" data-hi="बजट सीमा">Budget Range</label>
+                    <div class="budget-slider">
+                        <input type="range" id="budget-range" min="10000" max="500000" value="50000" step="5000">
+                        <div class="budget-display">
+                            <span>₹<span id="budget-value">50,000</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" data-en="Accommodation" data-hi="आवास">Accommodation</label>
+                        <select class="form-control" id="accommodation">
+                            <option value="budget" data-en="Budget Hotels" data-hi="बजट होटल">Budget Hotels</option>
+                            <option value="mid-range" data-en="Mid-range Hotels" data-hi="मध्यम श्रेणी होटल">Mid-range Hotels</option>
+                            <option value="luxury" data-en="Luxury Hotels" data-hi="लक्जरी होटल">Luxury Hotels</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-en="Transportation" data-hi="परिवहन">Transportation</label>
+                        <select class="form-control" id="transportation">
+                            <option value="flight" data-en="Flight" data-hi="उड़ान">Flight</option>
+                            <option value="train" data-en="Train" data-hi="ट्रेन">Train</option>
+                            <option value="bus" data-en="Bus" data-hi="बस">Bus</option>
+                            <option value="car" data-en="Car" data-hi="कार">Car</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Interests -->
+            <div class="form-step" id="step-3">
+                <h2 data-en="What interests you most?" data-hi="आपकी सबसे अधिक रुचि किसमें है?">What interests you most?</h2>
+                
+                <div class="form-group">
+                    <label class="form-label" data-en="Activities" data-hi="गतिविधियां">Activities</label>
+                    <div class="interest-grid">
+                        <div class="interest-item" data-activity="museums">
+                            <i class="fas fa-university"></i>
+                            <span data-en="Museums" data-hi="संग्रहालय">Museums</span>
+                        </div>
+                        <div class="interest-item" data-activity="adventure">
+                            <i class="fas fa-mountain"></i>
+                            <span data-en="Adventure Sports" data-hi="साहसिक खेल">Adventure Sports</span>
+                        </div>
+                        <div class="interest-item" data-activity="shopping">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span data-en="Shopping" data-hi="खरीदारी">Shopping</span>
+                        </div>
+                        <div class="interest-item" data-activity="markets">
+                            <i class="fas fa-store"></i>
+                            <span data-en="Local Markets" data-hi="स्थानीय बाज़ार">Local Markets</span>
+                        </div>
+                        <div class="interest-item" data-activity="temples">
+                            <i class="fas fa-om"></i>
+                            <span data-en="Temples" data-hi="मंदिर">Temples</span>
+                        </div>
+                        <div class="interest-item" data-activity="nature">
+                            <i class="fas fa-tree"></i>
+                            <span data-en="Nature" data-hi="प्रकृति">Nature</span>
+                        </div>
+                        <div class="interest-item" data-activity="photography">
+                            <i class="fas fa-camera"></i>
+                            <span data-en="Photography" data-hi="फोटोग्राफी">Photography</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" data-en="Dietary Preferences" data-hi="आहार प्राथमिकताएं">Dietary Preferences</label>
+                        <select class="form-control" id="dietary">
+                            <option value="no-restrictions" data-en="No restrictions" data-hi="कोई प्रतिबंध नहीं">No restrictions</option>
+                            <option value="vegetarian" data-en="Vegetarian" data-hi="शाकाहारी">Vegetarian</option>
+                            <option value="non-vegetarian" data-en="Non-vegetarian" data-hi="मांसाहारी">Non-vegetarian</option>
+                            <option value="vegan" data-en="Vegan" data-hi="शुद्ध शाकाहारी">Vegan</option>
+                            <option value="jain" data-en="Jain" data-hi="जैन">Jain</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-en="Group Type" data-hi="समूह प्रकार">Group Type</label>
+                        <select class="form-control" id="group-type">
+                            <option value="solo" data-en="Solo" data-hi="अकेले">Solo</option>
+                            <option value="couple" data-en="Couple" data-hi="जोड़ा">Couple</option>
+                            <option value="family" data-en="Family" data-hi="परिवार">Family</option>
+                            <option value="friends" data-en="Friends" data-hi="मित्र">Friends</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-navigation">
+                <button class="btn btn--outline" id="prev-step" style="display: none;" data-en="Previous" data-hi="पिछला">Previous</button>
+                <button class="btn btn--primary" id="next-step" data-en="Next" data-hi="अगला">Next</button>
+                <button class="btn btn--primary" id="generate-itinerary" style="display: none;" data-en="Generate Itinerary" data-hi="यात्रा योजना बनाएं">Generate Itinerary</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Generation Loading -->
+    <section id="ai-generation" class="page">
+        <div class="generation-container">
+            <div class="ai-animation">
+                <div class="ai-brain">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            
+            <h2 class="generation-title" data-en="AI is crafting your perfect itinerary..." data-hi="AI आपकी सही यात्रा तैयार कर रहा है...">AI is crafting your perfect itinerary...</h2>
+            
+            <div class="generation-steps">
+                <div class="gen-step active">
+                    <i class="fas fa-search"></i>
+                    <span data-en="Analyzing your preferences..." data-hi="आपकी प्राथमिकताओं का विश्लेषण...">Analyzing your preferences...</span>
+                </div>
+                <div class="gen-step">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span data-en="Finding best destinations..." data-hi="सर्वोत्तम गंतव्य खोज रहे हैं...">Finding best destinations...</span>
+                </div>
+                <div class="gen-step">
+                    <i class="fas fa-route"></i>
+                    <span data-en="Optimizing itinerary..." data-hi="यात्रा कार्यक्रम का अनुकूलन...">Optimizing itinerary...</span>
+                </div>
+                <div class="gen-step">
+                    <i class="fas fa-clock"></i>
+                    <span data-en="Checking real-time availability..." data-hi="वास्तविक समय उपलब्धता जांच...">Checking real-time availability...</span>
+                </div>
+                <div class="gen-step">
+                    <i class="fas fa-star"></i>
+                    <span data-en="Generating personalized recommendations..." data-hi="व्यक्तिगत सिफारिशें तैयार कर रहे हैं...">Generating personalized recommendations...</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Itinerary -->
+    <section id="itinerary-view" class="page">
+        <div class="container">
+            <div class="itinerary-header">
+                <div class="destination-info">
+                    <h1 class="destination-name"></h1>
+                    <div class="trip-details">
+                        <span class="trip-duration-display"></span>
+                        <span class="trip-budget-display"></span>
+                        <span class="weather-widget">
+                            <i class="fas fa-sun"></i>
+                            <span data-en="Sunny, 28°C" data-hi="धूप, 28°C">Sunny, 28°C</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="itinerary-actions">
+                    <button class="btn btn--outline" id="share-itinerary">
+                        <i class="fas fa-share-alt"></i>
+                        <span data-en="Share" data-hi="साझा करें">Share</span>
+                    </button>
+                    <button class="btn btn--outline" id="download-pdf">
+                        <i class="fas fa-download"></i>
+                        <span data-en="Download PDF" data-hi="PDF डाउनलोड">Download PDF</span>
+                    </button>
+                    <button class="btn btn--primary" id="proceed-booking" data-en="Book Now" data-hi="अभी बुक करें">Book Now</button>
+                </div>
+            </div>
+
+            <div class="itinerary-content">
+                <div class="day-timeline" id="day-timeline"></div>
+                
+                <div class="cost-breakdown card">
+                    <div class="card__header">
+                        <h3 data-en="Cost Breakdown" data-hi="लागत विवरण">Cost Breakdown</h3>
+                    </div>
+                    <div class="card__body" id="cost-breakdown">
+                        <!-- Cost items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Interface -->
+    <section id="booking-page" class="page">
+        <div class="container">
+            <h1 data-en="Complete Your Booking" data-hi="अपनी बुकिंग पूरी करें">Complete Your Booking</h1>
+            
+            <div class="booking-tabs">
+                <button class="tab-btn active" data-tab="flights">
+                    <i class="fas fa-plane"></i>
+                    <span data-en="Flights" data-hi="उड़ानें">Flights</span>
+                </button>
+                <button class="tab-btn" data-tab="hotels">
+                    <i class="fas fa-bed"></i>
+                    <span data-en="Hotels" data-hi="होटल">Hotels</span>
+                </button>
+                <button class="tab-btn" data-tab="activities">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span data-en="Activities" data-hi="गतिविधियां">Activities</span>
+                </button>
+            </div>
+
+            <div class="booking-content">
+                <!-- Flights Tab -->
+                <div class="tab-content active" id="flights-tab">
+                    <div class="booking-options" id="flight-options"></div>
+                </div>
+
+                <!-- Hotels Tab -->
+                <div class="tab-content" id="hotels-tab">
+                    <div class="booking-options" id="hotel-options"></div>
+                </div>
+
+                <!-- Activities Tab -->
+                <div class="tab-content" id="activities-tab">
+                    <div class="booking-options" id="activity-options"></div>
+                </div>
+            </div>
+
+            <div class="booking-summary card">
+                <div class="card__header">
+                    <h3 data-en="Booking Summary" data-hi="बुकिंग सारांश">Booking Summary</h3>
+                </div>
+                <div class="card__body" id="booking-summary">
+                    <div class="total-amount">
+                        <span data-en="Total Amount: " data-hi="कुल राशि: ">Total Amount: </span>
+                        <span class="amount">₹0</span>
+                    </div>
+                    <button class="btn btn--primary btn--full-width" id="proceed-payment" data-en="Proceed to Payment" data-hi="भुगतान के लिए आगे बढ़ें">Proceed to Payment</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Gateway -->
+    <div id="payment-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-en="Secure Payment" data-hi="सुरक्षित भुगतान">Secure Payment</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="payment-options">
+                    <div class="payment-method active" data-method="upi">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>UPI</span>
+                    </div>
+                    <div class="payment-method" data-method="card">
+                        <i class="fas fa-credit-card"></i>
+                        <span data-en="Card" data-hi="कार्ड">Card</span>
+                    </div>
+                    <div class="payment-method" data-method="netbanking">
+                        <i class="fas fa-university"></i>
+                        <span data-en="Net Banking" data-hi="नेट बैंकिंग">Net Banking</span>
+                    </div>
+                </div>
+                
+                <div class="payment-form">
+                    <div class="payment-amount">
+                        <span data-en="Amount to Pay: " data-hi="भुगतान राशि: ">Amount to Pay: </span>
+                        <span class="final-amount">₹0</span>
+                    </div>
+                    <button class="btn btn--primary btn--full-width" id="confirm-payment" data-en="Confirm Payment" data-hi="भुगतान पुष्टि करें">Confirm Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-en="Booking Confirmed!" data-hi="बुकिंग की पुष्टि!">Booking Confirmed!</h3>
+            </div>
+            <div class="modal-body">
+                <div class="confirmation-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <p data-en="Your trip has been successfully booked! Confirmation details have been sent to your email." data-hi="आपकी यात्रा सफलतापूर्वक बुक हो गई है! पुष्टिकरण विवरण आपके ईमेल पर भेजा गया है।">Your trip has been successfully booked! Confirmation details have been sent to your email.</p>
+                <div class="confirmation-actions">
+                    <button class="btn btn--outline" id="download-confirmation" data-en="Download Itinerary" data-hi="यात्रा कार्यक्रम डाउनलोड करें">Download Itinerary</button>
+                    <button class="btn btn--primary" id="back-to-home" data-en="Plan Another Trip" data-hi="अन्य यात्रा की योजना बनाएं">Plan Another Trip</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Support -->
+    <div class="chat-widget">
+        <div class="chat-toggle" id="chat-toggle">
+            <i class="fas fa-comments"></i>
+        </div>
+        <div class="chat-window hidden" id="chat-window">
+            <div class="chat-header">
+                <h4 data-en="AI Assistant" data-hi="AI सहायक">AI Assistant</h4>
+                <button class="chat-close">&times;</button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="chat-message bot">
+                    <span data-en="Hello! How can I help you with your trip planning?" data-hi="नमस्ते! मैं आपकी यात्रा योजना में कैसे मदद कर सकता हूं?">Hello! How can I help you with your trip planning?</span>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Type your message..." data-en-placeholder="Type your message..." data-hi-placeholder="अपना संदेश टाइप करें...">
+                <button class="btn btn--primary btn--sm">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
